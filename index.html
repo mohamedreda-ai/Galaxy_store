@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GALAXY STORE - تجربة تسوق فريدة تجمع بين فخامة الموضة وسحر الفضاء.">
+    <title>GALAXY STORE | فخامة هادئة</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --cosmic-purple: #0f0a1a; /* لون أهدأ قليلاً */
+            --accent-blue: #0071e3;
+            --text-white: #ffffff;
+            --text-gray: #86868b; /* درجة رمادي مريحة أكثر */
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #34c759;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Alexandria', sans-serif; }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
+            line-height: 1.8; /* زيادة تباعد الأسطر لراحة العين */
+        }
+
+        #galaxy-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, var(--cosmic-purple) 0%, var(--bg-dark) 100%);
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 30px; }
+
+        /* --- Header --- */
+        header { padding: 40px 0; position: absolute; width: 100%; z-index: 100; }
+        .nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.3rem; font-weight: 800; text-decoration: none; color: white; letter-spacing: 0.5px; }
+        .logo span { color: var(--accent-blue); }
+
+        /* --- Hero Section --- */
+        .hero { min-height: 100vh; display: flex; align-items: center; text-align: center; padding: 120px 0; }
+        .hero-content { max-width: 800px; margin: 0 auto; }
+        .hero h1 { 
+            font-size: clamp(2.2rem, 6vw, 3.8rem); /* تصغير الخط */
+            font-weight: 800; line-height: 1.2; 
+            margin-bottom: 30px; letter-spacing: -0.5px;
+            background: linear-gradient(180deg, #fff 40%, #a1a1a6 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 1.1rem; color: var(--text-gray); margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* --- Buttons --- */
+        .cta-btn {
+            background: var(--accent-blue); color: white; padding: 16px 40px;
+            border-radius: 12px; text-decoration: none; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 12px; font-size: 1rem;
+            transition: all 0.4s ease;
+        }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 113, 227, 0.3); }
+
+        /* --- Section Styling --- */
+        .section { padding: 140px 0; } /* زيادة المساحات بين الأقسام */
+        .section-title { text-align: center; margin-bottom: 80px; }
+        .section-title h2 { font-size: 2.1rem; font-weight: 700; margin-bottom: 20px; }
+        .section-title p { color: var(--text-gray); font-size: 1rem; }
+
+        /* --- Comparison Grid --- */
+        .comparison-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 40px; padding: 60px; backdrop-filter: blur(20px);
+        }
+        .comp-item h4 { margin-bottom: 25px; font-size: 1.2rem; font-weight: 600; }
+        .comp-list { list-style: none; }
+        .comp-list li { margin-bottom: 18px; display: flex; align-items: center; gap: 12px; color: var(--text-gray); font-size: 0.95rem; }
+        .comp-list i { font-size: 0.8rem; }
+
+        /* --- Testimonials --- */
+        .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .testi-card {
+            background: var(--glass); padding: 30px; border-radius: 30px;
+            border: 1px solid var(--border); transition: 0.3s;
+        }
+        .stars { color: #ffcc00; margin-bottom: 15px; font-size: 0.75rem; opacity: 0.8; }
+        .testi-card p { font-size: 0.95rem; color: var(--text-white); opacity: 0.9; }
+        .user-meta { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .user-meta strong { font-size: 0.9rem; display: block; }
+        .user-meta small { color: var(--text-gray); font-size: 0.8rem; }
+
+        /* --- FAQ --- */
+        .faq-container { max-width: 700px; margin: 0 auto; }
+        .faq-item { 
+            background: var(--glass); border-bottom: 1px solid var(--border); 
+            margin-bottom: 5px; padding: 25px; cursor: pointer; transition: 0.3s;
+        }
+        .faq-item:hover { background: rgba(255,255,255,0.05); }
+        .faq-q { font-weight: 500; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { color: var(--text-gray); margin-top: 15px; display: none; font-size: 0.9rem; }
+
+        /* --- Footer --- */
+        footer { padding: 100px 0 50px; text-align: center; opacity: 0.7; }
+        .footer-links { display: flex; justify-content: center; gap: 40px; margin: 40px 0; font-size: 0.85rem; }
+        .footer-links a { color: var(--text-white); text-decoration: none; }
+
+        .wa-float {
+            position: fixed; bottom: 40px; left: 40px; background: var(--success);
+            color: white; width: 55px; height: 55px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 28px;
+            z-index: 1000; box-shadow: 0 10px 25px rgba(52, 199, 89, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid { grid-template-columns: 1fr; padding: 40px 25px; }
+            .hero { padding: 150px 0 100px; }
+            .section { padding: 80px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="galaxy-canvas"></canvas>
+
+    <header>
+        <div class="container nav">
+            <a href="#" class="logo">GALAXY<span>STORE</span></a>
+            <a href="https://wa.me/201273454098" class="cta-btn" style="padding: 10px 20px; font-size: 0.85rem; border-radius: 8px;">اطلب الآن</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content" data-aos="fade-up">
+            <h1>أناقة تتجاوز الحدود،<br>جودة تلامس النجوم.</h1>
+            <p>نحن لا نبيع مجرد ملابس، نحن نصمم حضورك. استمتع بأرقى الخامات العالمية وتصاميم تواكب التريند بلمسة جالاكسي الخاصة.</p>
+            <a href="https://wa.me/201273454098" class="cta-btn">
+                تصفح الكتالوج الجديد <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>الفرق بين جالاكسي والآخرين</h2>
+            <p>الجودة ليست مجرد كلمة، بل هي التزامنا تجاهك.</p>
+        </div>
+        <div class="comparison-grid" data-aos="fade-up">
+            <div class="comp-item">
+                <h4>المتاجر التقليدية</h4>
+                <ul class="comp-list">
+                    <li><i class="fas fa-circle-xmark" style="color:#ff3b30"></i> خامات تبهت بعد أول غسلة.</li>
+                    <li><i class="fas fa-circle-xmark" style="color:#ff3b30"></i> صور استوك غير حقيقية.</li>
+                    <li><i class="fas fa-circle-xmark" style="color:#ff3b30"></i> خدمة ما بعد بيع منعدمة.</li>
+                </ul>
+            </div>
+            <div class="comp-item">
+                <h4>جالاكسي ستور</h4>
+                <ul class="comp-list">
+                    <li><i class="fas fa-circle-check" style="color:var(--success)"></i> قطن مصري فاخر معالج.</li>
+                    <li><i class="fas fa-circle-check" style="color:var(--success)"></i> تصوير طبيعي 100% لمنتجاتنا.</li>
+                    <li><i class="fas fa-circle-check" style="color:var(--success)"></i> ضمان استبدال واسترجاع مرن.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>آراء مجتمع جالاكسي</h2>
+        </div>
+        <div class="testimonials">
+            <div class="testi-card" data-aos="fade-up">
+                <div class="stars">★★★★★</div>
+                <p>"الخامة فاقت توقعاتي، التقفيل نظيف جداً واللون ثابت بعد الغسيل."</p>
+                <div class="user-meta"><strong>ياسين أحمد</strong><small>الإسكندرية</small></div>
+            </div>
+            <div class="testi-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stars">★★★★★</div>
+                <p>"أفضل تجربة أونلاين في مصر، سرعة في التوصيل ومصداقية في المعاينة."</p>
+                <div class="user-meta"><strong>محمد زين</strong><small>القاهرة</small></div>
+            </div>
+            <div class="testi-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stars">★★★★★</div>
+                <p>"الستايل مميز جداً وغير مكرر، شكراً جالاكسي على الاهتمام بالتفاصيل."</p>
+                <div class="user-meta"><strong>عمر خالد</strong><small>طنطا</small></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section container">
+        <div class="section-title">
+            <h2>الأسئلة الشائعة</h2>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-q">هل يمكنني المعاينة قبل الدفع؟ <i class="fas fa-plus"></i></div>
+                <div class="faq-a">بكل تأكيد، سياستنا تسمح لك بفتح الشحنة ومعاينتها والتأكد من الجودة والمقاس قبل الاستلام.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">ما هي مدة التوصيل؟ <i class="fas fa-plus"></i></div>
+                <div class="faq-a">التوصيل يستغرق من 48 إلى 72 ساعة كحد أقصى لجميع محافظات مصر.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <a href="#" class="logo">GALAXY<span>STORE</span></a>
+            <div class="footer-links">
+                <a href="#">الرئيسية</a>
+                <a href="#">سياسة الخصوصية</a>
+                <a href="#">واتساب</a>
+            </div>
+            <p>&copy; 2026 GALAXY STORE. صُنع بشغف.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/201273454098" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1200, once: true });
+
+        const canvas = document.getElementById('galaxy-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let shootingStars = [];
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < 70; i++) { // عدد نجو م أقل لراحة العين
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.2,
+                    opacity: Math.random(),
+                    speed: Math.random() * 0.01 + 0.005,
+                    up: Math.random() > 0.5
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                if (s.up) { s.opacity += s.speed; if (s.opacity >= 1) s.up = false; }
+                else { s.opacity -= s.speed; if (s.opacity <= 0.1) s.up = true; }
+                ctx.globalAlpha = s.opacity;
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            if (Math.random() < 0.005) {
+                shootingStars.push({ x: Math.random() * canvas.width, y: 0, len: Math.random() * 100 + 50, speed: 15, opacity: 1 });
+            }
+            shootingStars.forEach((sh, i) => {
+                sh.x -= sh.speed; sh.y += sh.speed; sh.opacity -= 0.03;
+                if (sh.opacity <= 0) shootingStars.splice(i, 1);
+                ctx.globalAlpha = sh.opacity;
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(sh.x + sh.len, sh.y - sh.len); ctx.stroke();
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', init);
+        init(); draw();
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const a = item.querySelector('.faq-a');
+                const i = item.querySelector('.faq-q i');
+                const open = a.style.display === 'block';
+                a.style.display = open ? 'none' : 'block';
+                i.className = open ? 'fas fa-plus' : 'fas fa-minus';
+            });
+        });
+    </script>
+</body>
+</html>
